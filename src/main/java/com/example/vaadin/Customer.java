@@ -10,7 +10,7 @@ public class Customer {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long customerId;
+  private Long id;
   private String name;
   private String email;
 
@@ -22,12 +22,12 @@ public class Customer {
     this.email = email;
   }
 
-  public Long getCustomerId() {
-    return customerId;
+  public Long getId() {
+    return id;
   }
 
-  public void setCustomerId(Long id) {
-    this.customerId = id;
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getName() {
