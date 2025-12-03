@@ -12,7 +12,7 @@ import com.vaadin.flow.server.menu.MenuConfiguration;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 /**
- * The main UI layout. This includes the app header and navigation.
+ * The main UI layout which includes the app header and navigation.
  */
 @Layout
 public class MainLayout extends AppLayout {

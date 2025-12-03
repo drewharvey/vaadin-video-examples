@@ -1,3 +1,4 @@
+-- demo data for the customer database table
 INSERT INTO customer (name, email) VALUES ('John Smith', 'john.smith@example.com');
 INSERT INTO customer (name, email) VALUES ('Jane Doe', 'jane.doe@example.com');
 INSERT INTO customer (name, email) VALUES ('Bob Johnson', 'bob.johnson@example.com');

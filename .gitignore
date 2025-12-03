@@ -4,6 +4,7 @@ mvnw
 mvnw.cmd
 *.iml
 .idea/
+.vscode/
 .settings/
 .classpath
 .project

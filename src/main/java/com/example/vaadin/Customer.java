@@ -5,6 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+/**
+ * JPA entity that represents the `customer` table in our database.
+ */
 @Entity
 public class Customer {
 
