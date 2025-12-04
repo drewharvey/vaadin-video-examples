@@ -20,6 +20,44 @@ import com.vaadin.flow.router.Route;
 public class CustomerView extends VerticalLayout {
 
   public CustomerView(CustomerRepository repository) {
+    // minimalExample(repository);
+    bestPracticeExample(repository);
+  }
+
+  private void minimalExample(CustomerRepository repository) {
+    setSizeFull();
+
+    var grid = new Grid<Customer>();
+    grid.addColumn(Customer::getName);
+    grid.addColumn(Customer::getEmail);
+    grid.setSizeFull();
+
+    var dataView = grid.setItems();
+
+    var searchField = new TextField();
+    searchField.addValueChangeListener(e -> dataView.refreshAll());
+    add(searchField, grid);
+
+    dataView.addFilter(customer -> {
+      var searchStr = searchField.getValue();
+      if (searchField.isEmpty() || StringUtils.containsIgnoreCase(customer.getName(), searchStr)
+          || StringUtils.containsIgnoreCase(customer.getEmail(), searchStr)) {
+        return true;
+      }
+      return false;
+    });
+
+    var customers = repository.findAll();
+    dataView.setItems(customers);
+  }
+  
+  /**
+   * Below is a more in-depth explenation of adding filtering to a {@link Grid} component.
+   * The code in this function represents a best-practice approach and is the prefered approach
+   * for production quality code.
+   * @param repository
+   */
+  private void bestPracticeExample(CustomerRepository repository) {
 
     // tell the view to take up all of the remaining screen space
     setSizeFull();
@@ -32,6 +70,9 @@ public class CustomerView extends VerticalLayout {
     grid.addColumn(Customer::getId);
     grid.addColumn(Customer::getName);
     grid.addColumn(Customer::getEmail);
+
+    // automatically determine column widths based on content
+    grid.getColumns().forEach(c -> c.setAutoWidth(true));
 
     // instantiate grid's data view by setting an empty list of items
     var dataView = grid.setItems();
@@ -58,13 +99,10 @@ public class CustomerView extends VerticalLayout {
     });
 
     // fetch all of the users and add them to our grid
+    // note: we must use dataView.setItems, using grid.setItems 
+    // will create a new data view and thus remove our filter function
     var customers = repository.findAll();
     dataView.setItems(customers);
-
-    // end of demo --------------------------------
-
-    // optional: automatically determine column widths based on content
-    grid.getColumns().forEach(c -> c.setAutoWidth(true));
   }
 
 }
