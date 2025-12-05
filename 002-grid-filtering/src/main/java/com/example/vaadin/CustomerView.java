@@ -1,5 +1,6 @@
 package com.example.vaadin;
 
+import static org.apache.commons.lang3.StringUtils.contains;
 import org.apache.commons.lang3.StringUtils;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.Icon;
@@ -36,16 +37,20 @@ public class CustomerView extends VerticalLayout {
 
     var searchField = new TextField();
     searchField.addValueChangeListener(e -> dataView.refreshAll());
-    add(searchField, grid);
 
     dataView.addFilter(customer -> {
       var searchStr = searchField.getValue();
-      if (searchField.isEmpty() || StringUtils.containsIgnoreCase(customer.getName(), searchStr)
-          || StringUtils.containsIgnoreCase(customer.getEmail(), searchStr)) {
+      var name = customer.getName();
+      var email = customer.getEmail();
+      if (searchField.isEmpty()
+          || contains(name, searchStr)
+          || contains(email, searchStr)) {
         return true;
       }
       return false;
     });
+
+    add(searchField, grid);
 
     var customers = repository.findAll();
     dataView.setItems(customers);
@@ -79,7 +84,7 @@ public class CustomerView extends VerticalLayout {
 
     // create the search field component
     var searchField = new TextField();
-    searchField.setValueChangeMode(ValueChangeMode.LAZY);
+    searchField.setValueChangeMode(ValueChangeMode.EAGER);
     searchField.addValueChangeListener(e -> dataView.refreshAll());
     searchField.setPlaceholder("Search");
     searchField.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
@@ -106,3 +111,36 @@ public class CustomerView extends VerticalLayout {
   }
 
 }
+
+
+/*
+public CustomerView(CustomerRepository repository) {
+
+var grid = new Grid<Customer>();
+grid.addColumn(Customer::getName);
+grid.addColumn(Customer::getEmail);
+
+var dataView = grid.setItems();
+
+var searchField = new TextField();
+searchField.addValueChangeListener(
+    e -> dataView.refreshAll()
+);
+
+dataView.addFilter(customer -> {
+  var searchStr = searchField.getValue();
+  var name = customer.getName();
+  var email = customer.getEmail();
+  if (searchStr.isEmpty() 
+      || contains(name, searchStr) 
+      || contains(email, searchStr)) {
+    return true;
+  }
+  return false;
+});
+
+add(searchField, grid);
+
+var customers = repository.findAll();
+dataView.setItems(customers);
+} */
