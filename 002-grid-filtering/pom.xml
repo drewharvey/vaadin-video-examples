@@ -10,7 +10,7 @@
         <relativePath/>
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>vaadin-grid-filtering-demo</artifactId>
+    <artifactId>vaadin-grid-single-filter-demo</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
