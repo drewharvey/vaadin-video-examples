@@ -1,6 +1,5 @@
 package com.example.vaadin;
 
-import static org.apache.commons.lang3.StringUtils.contains;
 import org.apache.commons.lang3.StringUtils;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.Icon;
@@ -21,44 +20,13 @@ import com.vaadin.flow.router.Route;
 public class CustomerView extends VerticalLayout {
 
   public CustomerView(CustomerRepository repository) {
-    // minimalExample(repository);
     bestPracticeExample(repository);
-  }
-
-  private void minimalExample(CustomerRepository repository) {
-    setSizeFull();
-
-    var grid = new Grid<Customer>();
-    grid.addColumn(Customer::getName);
-    grid.addColumn(Customer::getEmail);
-    grid.setSizeFull();
-
-    var dataView = grid.setItems();
-
-    var searchField = new TextField();
-    searchField.addValueChangeListener(e -> dataView.refreshAll());
-
-    dataView.addFilter(customer -> {
-      var searchStr = searchField.getValue();
-      var name = customer.getName();
-      var email = customer.getEmail();
-      if (searchField.isEmpty()
-          || contains(name, searchStr)
-          || contains(email, searchStr)) {
-        return true;
-      }
-      return false;
-    });
-
-    add(searchField, grid);
-
-    var customers = repository.findAll();
-    dataView.setItems(customers);
+    // minimalExample(repository);
   }
   
   /**
-   * Below is a more in-depth explenation of adding filtering to a {@link Grid} component.
-   * The code in this function represents a best-practice approach and is the prefered approach
+   * Below is a more in-depth explanation of adding filtering to a {@link Grid} component.
+   * The code in this function represents a best-practice approach and is the preferred approach
    * for production quality code.
    * @param repository
    */
@@ -109,34 +77,41 @@ public class CustomerView extends VerticalLayout {
     var customers = repository.findAll();
     dataView.setItems(customers);
   }
+  
+  /**
+   * This is a minimal example used for focusing on the high-level concepts. Use this to 
+   * get an overview of the feature, but refer to the {@link #bestPracticeExample} 
+   * method for reference on production quality code.
+   */
+  private void minimalExample(CustomerRepository repository) {
+    setSizeFull();
+
+    var grid = new Grid<Customer>();
+    grid.addColumn(Customer::getName);
+    grid.addColumn(Customer::getEmail);
+    grid.setSizeFull();
+
+    var dataView = grid.setItems();
+
+    var searchField = new TextField();
+    searchField.addValueChangeListener(e -> dataView.refreshAll());
+
+    dataView.addFilter(customer -> {
+      var searchStr = searchField.getValue();
+      var name = customer.getName();
+      var email = customer.getEmail();
+      if (searchField.isEmpty()
+          || StringUtils.containsIgnoreCase(name, searchStr)
+          || StringUtils.containsIgnoreCase(email, searchStr)) {
+        return true;
+      }
+      return false;
+    });
+
+    add(searchField, grid);
+
+    var customers = repository.findAll();
+    dataView.setItems(customers);
+  }
 
 }
-
-
-// var grid = new Grid<Customer>();
-// grid.addColumn(Customer::getName);
-// grid.addColumn(Customer::getEmail);
-
-// var dataView = grid.setItems();
-
-// var searchField = new TextField();
-// searchField.addValueChangeListener(
-//   e -> dataView.refreshAll()
-// );
-
-// dataView.addFilter(customer -> {
-//   var searchStr = searchField.getValue();
-//   var name = customer.getName();
-//   var email = customer.getEmail();
-//   if (searchStr.isEmpty() 
-//       || contains(name, searchStr) 
-//       || contains(email, searchStr)) {
-//     return true;
-//   }
-//   return false;
-// });
-
-// add(searchField, grid);
-
-// var customers = repository.findAll();
-// dataView.setItems(customers);
