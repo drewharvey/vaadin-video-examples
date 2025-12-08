@@ -113,34 +113,30 @@ public class CustomerView extends VerticalLayout {
 }
 
 
-/*
-public CustomerView(CustomerRepository repository) {
+// var grid = new Grid<Customer>();
+// grid.addColumn(Customer::getName);
+// grid.addColumn(Customer::getEmail);
 
-var grid = new Grid<Customer>();
-grid.addColumn(Customer::getName);
-grid.addColumn(Customer::getEmail);
+// var dataView = grid.setItems();
 
-var dataView = grid.setItems();
+// var searchField = new TextField();
+// searchField.addValueChangeListener(
+//   e -> dataView.refreshAll()
+// );
 
-var searchField = new TextField();
-searchField.addValueChangeListener(
-    e -> dataView.refreshAll()
-);
+// dataView.addFilter(customer -> {
+//   var searchStr = searchField.getValue();
+//   var name = customer.getName();
+//   var email = customer.getEmail();
+//   if (searchStr.isEmpty() 
+//       || contains(name, searchStr) 
+//       || contains(email, searchStr)) {
+//     return true;
+//   }
+//   return false;
+// });
 
-dataView.addFilter(customer -> {
-  var searchStr = searchField.getValue();
-  var name = customer.getName();
-  var email = customer.getEmail();
-  if (searchStr.isEmpty() 
-      || contains(name, searchStr) 
-      || contains(email, searchStr)) {
-    return true;
-  }
-  return false;
-});
+// add(searchField, grid);
 
-add(searchField, grid);
-
-var customers = repository.findAll();
-dataView.setItems(customers);
-} */
+// var customers = repository.findAll();
+// dataView.setItems(customers);
