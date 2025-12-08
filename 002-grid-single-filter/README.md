@@ -1,6 +1,6 @@
-# Vaadin Grid: column filtering
+# Vaadin Grid: filtering
 
-A minimal Vaadin 24 + Spring Boot project demonstrating how to add filters to column headers in the Vaadin Grid component.
+A minimal Vaadin 24 + Spring Boot project demonstrating how to add filtering to the Vaadin Grid component.
 
 To learn more about building modern web apps in Java, visit the [Vaadin website](http://vaadin.com).
 
