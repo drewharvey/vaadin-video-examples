@@ -24,7 +24,7 @@ public class CustomerView extends VerticalLayout {
     bestPracticeExample(service);
     // minimalExample(service);
   }
-  
+
   /**
    * Below is a more in-depth explanation of adding filtering to a {@link Grid} component.
    * The code in this function represents a best-practice approach and is the preferred approach
@@ -32,34 +32,19 @@ public class CustomerView extends VerticalLayout {
    * @param service
    */
   private void bestPracticeExample(CustomerService service) {
+    // create the grid and search field components
+    var grid = new CustomerGrid();
+    var searchField = new SearchField();
 
-    // tell the view to take up all of the remaining screen space
-    setSizeFull();
-
-    // create the grid component and add to the UI
-    var grid = new Grid<Customer>();
-    grid.setSizeFull();
-
-    // add columns for each field in the User class
-    grid.addColumn(Customer::getId);
-    grid.addColumn(Customer::getName);
-    grid.addColumn(Customer::getEmail);
-
-    // automatically determine column widths based on content
-    grid.getColumns().forEach(c -> c.setAutoWidth(true));
+    // add components and make grid consume all the space
+    add(searchField);
+    addAndExpand(grid);
 
     // instantiate grid's data view by setting an empty list of items
     var dataView = grid.setItems();
 
-    // create the search field component
-    var searchField = new TextField();
-    searchField.setValueChangeMode(ValueChangeMode.LAZY);
+    // refresh grid when search field value changes
     searchField.addValueChangeListener(e -> dataView.refreshAll());
-    searchField.setPlaceholder("Search");
-    searchField.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
-    searchField.setWidthFull();
-
-    add(searchField, grid);
 
     // tell grid to always filter its items based on our search field
     dataView.addFilter(customer -> {
@@ -73,20 +58,38 @@ public class CustomerView extends VerticalLayout {
     });
 
     // fetch all of the users and add them to our grid
-    // note: we must use dataView.setItems, using grid.setItems 
+    // note: we must use dataView.setItems, using grid.setItems
     // will create a new data view and thus remove our filter function
     var customers = service.findAll();
     dataView.setItems(customers);
   }
-  
+
+  class CustomerGrid extends Grid<Customer> {
+
+    public CustomerGrid() {
+      addColumn(Customer::getId);
+      addColumn(Customer::getName);
+      addColumn(Customer::getEmail);
+
+      // automatically determine column widths based on content
+      getColumns().forEach(c -> c.setAutoWidth(true));
+      setSizeFull();
+    }
+  }
+
+  class SearchField extends TextField {{
+    setValueChangeMode(ValueChangeMode.LAZY);
+    setPlaceholder("Search");
+    setPrefixComponent(new Icon(VaadinIcon.SEARCH));
+    setWidthFull();
+  }}
+
   /**
-   * This is a minimal example used for focusing on the high-level concepts. Use this to 
-   * get an overview of the feature, but refer to the {@link #bestPracticeExample} 
+   * This is a minimal example used for focusing on the high-level concepts. Use this to
+   * get an overview of the feature, but refer to the {@link #bestPracticeExample}
    * method for reference on production quality code.
    */
   private void minimalExample(CustomerService service) {
-    setSizeFull();
-
     var grid = new Grid<Customer>();
     grid.addColumn(Customer::getName);
     grid.addColumn(Customer::getEmail);
@@ -109,7 +112,8 @@ public class CustomerView extends VerticalLayout {
       return false;
     });
 
-    add(searchField, grid);
+    add(searchField);
+    addAndExpand(grid);
 
     var customers = service.findAll();
     dataView.setItems(customers);
