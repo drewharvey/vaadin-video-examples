@@ -26,29 +26,30 @@ public class CustomerView extends VerticalLayout {
    * @param repository
    */
   private void bestPracticeExample(CustomerRepository repository) {
+    // create the Customer grid
+    var grid = new CustomerGrid();
 
-    // tell the view to take up all of the remaining screen space
-    setSizeFull();
-
-    // create the grid component and define our columns
-    var grid = new Grid<Customer>();
-    grid.setSizeFull();
-    grid.addColumn(Customer::getId)
-      .setHeader("ID");
-    grid.addColumn(Customer::getName)
-      .setHeader("Name");
-    grid.addColumn(Customer::getEmail)
-      .setHeader("Email");
-
-    // automatically adjust column widths based on their content
-    grid.getColumns().forEach(c -> c.setAutoWidth(true));
-
-    // add the grid to our view
-    add(grid);
+    // add the grid to our view and make it consume all the space
+    addAndExpand(grid);
 
     // fetch all of the customers and add them to our grid
     var customers = repository.findAll();
     grid.setItems(customers);
+  }
+
+  class CustomerGrid extends Grid<Customer> {
+
+      public CustomerGrid() {
+          // Instead of reflection you can manually define which columns to show and
+          // what they should contain
+          addColumn(Customer::getId).setHeader("ID");
+          addColumn(Customer::getName).setHeader("Name");
+          addColumn(Customer::getEmail).setHeader("Email");
+
+          // automatically adjust column widths based on their content
+          getColumns().forEach(c -> c.setAutoWidth(true));
+          setSizeFull();
+      }
   }
 
   /**
