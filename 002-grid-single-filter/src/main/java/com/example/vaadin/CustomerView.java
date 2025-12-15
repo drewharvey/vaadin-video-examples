@@ -1,7 +1,5 @@
 package com.example.vaadin;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -40,28 +38,9 @@ public class CustomerView extends VerticalLayout {
     add(searchField);
     addAndExpand(grid);
 
-    // instantiate grid's data view by setting an empty list of items
-    var dataView = grid.setItems();
-
     // refresh grid when search field value changes
-    searchField.addValueChangeListener(e -> dataView.refreshAll());
-
-    // tell grid to always filter its items based on our search field
-    dataView.addFilter(customer -> {
-      var searchStr = searchField.getValue();
-      if (searchField.isEmpty()
-          || StringUtils.containsIgnoreCase(customer.getName(), searchStr)
-          || StringUtils.containsIgnoreCase(customer.getEmail(), searchStr)) {
-        return true;
-      }
-      return false; // this customer did not pass the filter requirements - don't show in UI
-    });
-
-    // fetch all of the users and add them to our grid
-    // note: we must use dataView.setItems, using grid.setItems
-    // will create a new data view and thus remove our filter function
-    var customers = service.findAll();
-    dataView.setItems(customers);
+    searchField.addValueChangeListener(e -> grid.setItems(service.filterCustomers(searchField.getValue())));
+    grid.setItems(service.findAll());
   }
 
   class CustomerGrid extends Grid<Customer> {
@@ -90,33 +69,17 @@ public class CustomerView extends VerticalLayout {
    * method for reference on production quality code.
    */
   private void minimalExample(CustomerService service) {
-    var grid = new Grid<Customer>();
-    grid.addColumn(Customer::getName);
-    grid.addColumn(Customer::getEmail);
-    grid.setSizeFull();
-
-    var dataView = grid.setItems();
+    var grid = new Grid<Customer>(Customer.class);
 
     var searchField = new TextField();
-    searchField.addValueChangeListener(e -> dataView.refreshAll());
-
-    dataView.addFilter(customer -> {
-      var searchStr = searchField.getValue();
-      var name = customer.getName();
-      var email = customer.getEmail();
-      if (searchField.isEmpty()
-          || StringUtils.containsIgnoreCase(name, searchStr)
-          || StringUtils.containsIgnoreCase(email, searchStr)) {
-        return true;
-      }
-      return false;
-    });
+    searchField.addValueChangeListener(e ->
+            grid.setItems(service.filterCustomers(searchField.getValue())));
 
     add(searchField);
     addAndExpand(grid);
 
-    var customers = service.findAll();
-    dataView.setItems(customers);
+    grid.setItems(service.findAll());
+
   }
 
 }
