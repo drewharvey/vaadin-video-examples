@@ -11,7 +11,7 @@ import com.vaadin.flow.router.Route;
  */
 @Route("")
 @PageTitle("Customers")
-@Menu(title = "Customers", icon = "vaadin:user")
+@Menu(title = "Customers", icon = "vaadin:users")
 public class CustomerView extends VerticalLayout {
 
   public CustomerView(CustomerRepository repository) {

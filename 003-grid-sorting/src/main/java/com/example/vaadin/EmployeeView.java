@@ -4,14 +4,19 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.function.ValueProvider;
+import com.vaadin.flow.router.Menu;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import java.util.function.Supplier;
 
 @Route("")
-public class EmployeeView extends Div {
+@PageTitle("Employees")
+@Menu(title = "Employees", icon = "vaadin:users")
+public class EmployeeView extends VerticalLayout {
 
   public EmployeeView(EmployeeService service) {
     setSizeFull();
@@ -26,11 +31,10 @@ public class EmployeeView extends Div {
   class EmployeeGrid extends Grid<Employee> {
 
     public EmployeeGrid() {
-      addThemeVariants(GridVariant.LUMO_NO_BORDER);
       setMultiSort(true);
       setSizeFull();
 
-      addComponentColumn(employee -> new EmployeeImage(employee));
+      addComponentColumn(EmployeeImage::new);
 
       addSortableColumn(Employee::getName, "Name");
       addSortableColumn(Employee::getDepartment, "Department");
