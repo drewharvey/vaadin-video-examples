@@ -55,4 +55,14 @@ public class CustomerService {
   public List<Customer> findAll() {
     return CUSTOMERS;
   }
+
+  public List<Customer> filterCustomers(String filter) {
+      var filterLowercase = filter.toLowerCase();
+      return CUSTOMERS.stream()
+              .filter(customer ->
+                      customer.getEmail().contains(filterLowercase) ||
+                      customer.getName().contains(filterLowercase)
+              )
+              .toList();
+    }
 }
