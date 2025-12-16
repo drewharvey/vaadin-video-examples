@@ -19,28 +19,22 @@ import com.vaadin.flow.router.Route;
 public class CustomerView extends VerticalLayout {
 
   public CustomerView(CustomerService service) {
-    bestPracticeExample(service);
-    // minimalExample(service);
-  }
+      // create the grid and search field components
+      var grid = new CustomerGrid();
+      var searchField = new SearchField();
 
-  /**
-   * Below is a more in-depth explanation of adding filtering to a {@link Grid} component.
-   * The code in this function represents a best-practice approach and is the preferred approach
-   * for production quality code.
-   * @param service
-   */
-  private void bestPracticeExample(CustomerService service) {
-    // create the grid and search field components
-    var grid = new CustomerGrid();
-    var searchField = new SearchField();
+      // add components and make grid consume all the space
+      add(searchField);
+      addAndExpand(grid);
 
-    // add components and make grid consume all the space
-    add(searchField);
-    addAndExpand(grid);
+      // refresh grid when search field value changes
+      searchField.addValueChangeListener(e -> {
+          var searchValue = e.getValue();
+          var filteredCustomers = service.filterCustomers(searchValue);
+          grid.setItems(filteredCustomers);
+      });
 
-    // refresh grid when search field value changes
-    searchField.addValueChangeListener(e -> grid.setItems(service.filterCustomers(searchField.getValue())));
-    grid.setItems(service.findAll());
+      grid.setItems(service.findAll());
   }
 
   class CustomerGrid extends Grid<Customer> {
@@ -56,20 +50,22 @@ public class CustomerView extends VerticalLayout {
     }
   }
 
-  class SearchField extends TextField {{
-    // With lazy value change mode, event is fired afer user has a short break,
-    // no need to hit enter
-    setValueChangeMode(ValueChangeMode.LAZY);
-    setPlaceholder("Search");
-    setPrefixComponent(new Icon(VaadinIcon.SEARCH));
-    setWidthFull();
-    setClearButtonVisible(true);
-  }}
+  class SearchField extends TextField {
+
+      public SearchField() {
+          // With lazy value change mode, event is fired after user has a short break,
+          // no need to hit enter
+          setValueChangeMode(ValueChangeMode.LAZY);
+          setPlaceholder("Search");
+          setPrefixComponent(new Icon(VaadinIcon.SEARCH));
+          setWidthFull();
+          setClearButtonVisible(true);
+      }
+  }
 
   /**
    * This is a minimal example used for focusing on the high-level concepts. Use this to
-   * get an overview of the feature, but refer to the {@link #bestPracticeExample}
-   * method for reference on production quality code.
+   * get an overview of the feature, but refer to the code above for the full example.
    */
   private void minimalExample(CustomerService service) {
     var grid = new Grid<Customer>(Customer.class);
