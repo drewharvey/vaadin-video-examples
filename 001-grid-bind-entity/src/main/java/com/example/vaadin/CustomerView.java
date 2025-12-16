@@ -15,26 +15,15 @@ import com.vaadin.flow.router.Route;
 public class CustomerView extends VerticalLayout {
 
   public CustomerView(CustomerRepository repository) {
-    bestPracticeExample(repository);
-    // minimalExample(repository);
-  }
+      // create the Customer grid
+      var grid = new CustomerGrid();
 
-  /**
-   * Below is a more in-depth explanation of binding an entity to a {@link Grid} component.
-   * The code in this function represents a best-practice approach and is the preferred approach
-   * for production quality code.
-   * @param repository
-   */
-  private void bestPracticeExample(CustomerRepository repository) {
-    // create the Customer grid
-    var grid = new CustomerGrid();
+      // add the grid to our view and make it consume all the space
+      addAndExpand(grid);
 
-    // add the grid to our view and make it consume all the space
-    addAndExpand(grid);
-
-    // fetch all of the customers and add them to our grid
-    var customers = repository.findAll();
-    grid.setItems(customers);
+      // fetch all of the customers and add them to our grid
+      var customers = repository.findAll();
+      grid.setItems(customers);
   }
 
   class CustomerGrid extends Grid<Customer> {
@@ -54,8 +43,7 @@ public class CustomerView extends VerticalLayout {
 
   /**
    * This is a minimal example used for focusing on the high-level concepts. Use this to 
-   * get an overview of the feature, but refer to the {@link #bestPracticeExample} 
-   * method for reference on production quality code.
+   * get an overview of the feature, but refer to the code above for the full example.
    */
   private void minimalExample(CustomerRepository repository) {
 
