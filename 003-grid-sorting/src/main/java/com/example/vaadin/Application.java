@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @StyleSheet(Lumo.UTILITY_STYLESHEET)
 public class Application implements AppShellConfigurator {
 
-  public static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 }

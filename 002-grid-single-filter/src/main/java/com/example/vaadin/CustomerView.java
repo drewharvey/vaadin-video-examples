@@ -18,67 +18,66 @@ import com.vaadin.flow.router.Route;
 @Menu(title = "Customers", icon = "vaadin:user")
 public class CustomerView extends VerticalLayout {
 
-  public CustomerView(CustomerService service) {
-      // create the grid and search field components
-      var grid = new CustomerGrid();
-      var searchField = new SearchField();
+    public CustomerView(CustomerService service) {
+        // create the grid and search field components
+        var grid = new CustomerGrid();
+        var searchField = new SearchField();
 
-      // add components and make grid consume all the space
-      add(searchField);
-      addAndExpand(grid);
+        // add components and make grid consume all the space
+        add(searchField);
+        addAndExpand(grid);
 
-      // refresh grid when search field value changes
-      searchField.addValueChangeListener(e -> {
-          var searchValue = e.getValue();
-          var filteredCustomers = service.filterCustomers(searchValue);
-          grid.setItems(filteredCustomers);
-      });
+        // refresh grid when search field value changes
+        searchField.addValueChangeListener(e -> {
+            var searchValue = e.getValue();
+            var filteredCustomers = service.filterCustomers(searchValue);
+            grid.setItems(filteredCustomers);
+        });
 
-      grid.setItems(service.findAll());
-  }
-
-  class CustomerGrid extends Grid<Customer> {
-
-    public CustomerGrid() {
-      addColumn(Customer::getId).setHeader("Id");
-      addColumn(Customer::getName).setHeader("Name");
-      addColumn(Customer::getEmail).setHeader("Email");
-
-      // automatically determine column widths based on content
-      getColumns().forEach(c -> c.setAutoWidth(true));
-      setSizeFull();
+        grid.setItems(service.findAll());
     }
-  }
 
-  class SearchField extends TextField {
+    class CustomerGrid extends Grid<Customer> {
 
-      public SearchField() {
-          // With lazy value change mode, event is fired after user has a short break,
-          // no need to hit enter
-          setValueChangeMode(ValueChangeMode.LAZY);
-          setPlaceholder("Search");
-          setPrefixComponent(new Icon(VaadinIcon.SEARCH));
-          setWidthFull();
-          setClearButtonVisible(true);
-      }
-  }
+        public CustomerGrid() {
+            addColumn(Customer::getId).setHeader("Id");
+            addColumn(Customer::getName).setHeader("Name");
+            addColumn(Customer::getEmail).setHeader("Email");
 
-  /**
-   * This is a minimal example used for focusing on the high-level concepts. Use this to
-   * get an overview of the feature, but refer to the code above for the full example.
-   */
-  private void minimalExample(CustomerService service) {
-    var grid = new Grid<Customer>(Customer.class);
+            // automatically determine column widths based on content
+            getColumns().forEach(c -> c.setAutoWidth(true));
+            setSizeFull();
+        }
+    }
 
-    var searchField = new TextField();
-    searchField.addValueChangeListener(e ->
-            grid.setItems(service.filterCustomers(searchField.getValue())));
+    class SearchField extends TextField {
 
-    add(searchField);
-    addAndExpand(grid);
+        public SearchField() {
+            // With lazy value change mode, event is fired after user has a short break,
+            // no need to hit enter
+            setValueChangeMode(ValueChangeMode.LAZY);
+            setPlaceholder("Search");
+            setPrefixComponent(new Icon(VaadinIcon.SEARCH));
+            setWidthFull();
+            setClearButtonVisible(true);
+        }
+    }
 
-    grid.setItems(service.findAll());
+    /**
+     * This is a minimal example used for focusing on the high-level concepts. Use this to
+     * get an overview of the feature, but refer to the code above for the full example.
+     */
+    private void minimalExample(CustomerService service) {
+        var grid = new Grid<Customer>(Customer.class);
 
-  }
+        var searchField = new TextField();
+        searchField.addValueChangeListener(e ->
+                grid.setItems(service.filterCustomers(searchField.getValue())));
+
+        add(searchField);
+        addAndExpand(grid);
+
+        grid.setItems(service.findAll());
+    }
 
 }
