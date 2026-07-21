@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&display=swap');
+
+html {
+    --aura-accent-color-dark: #00C950;
+    --aura-accent-color-light: #7CCF00;
+    --aura-background-color-dark: #161B1D;
+    --aura-background-color-light: #CEE8BC;
+    --aura-base-font-size: 13;
+    --aura-base-radius: 0;
+    --aura-content-color-scheme: dark;
+    --aura-contrast-level: 2;
+    --aura-font-family: 'Public Sans', var(--aura-font-family-system);
+    --aura-notification-color-scheme: dark;
+    --aura-surface-level: -0.5;
+    color-scheme: dark;
+}
+
+html {
+    --aura-font-weight-regular: 500;
+    --aura-font-weight-medium: 600;
+    --aura-font-weight-semibold: 700;
+    --vaadin-button-font-weight: 600;
+    --vaadin-input-field-value-font-weight: 500;
+    --vaadin-checkbox-font-weight: 600;
+    --vaadin-radio-button-font-weight: 600;
+    --vaadin-message-name-font-weight: 600;
+    --vaadin-grid-header-font-weight: 600;
+}
+
+vaadin-card,
+vaadin-dashboard-widget {
+    --aura-surface-level: 4;
+}
+
+/* Add your styles here */
+
+/* Hide a view header's drawer toggle while the drawer is open (the toggle in
+   the drawer header, marked theme="permanent", stays visible). Same rule as
+   newer Aura versions ship out of the box; [overlay] keeps the view toggle
+   visible in mobile overlay mode. */
+vaadin-app-layout[drawer-opened]:not([overlay]) .aura-view-header vaadin-drawer-toggle:not([theme~="permanent"]) {
+    display: none;
+}
+
+.app-logo {
+    background: var(--aura-accent-color);
+    color: var(--aura-accent-contrast-color);
+    border-radius: min(40%, var(--vaadin-radius-m));
+    margin-inline-start: var(--vaadin-padding-inline-container);
+    width: 24px;
+    height: 24px;
+    padding: 5px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.app-name {
+    font-weight: var(--aura-font-weight-semibold);
+    font-size: var(--aura-font-size-l);
+}
+
+.app-footer {
+    color: var(--vaadin-text-color-secondary);
+    font-size: var(--aura-font-size-s);
+}
