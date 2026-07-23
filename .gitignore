@@ -17,3 +17,10 @@ types.d.ts
 vite.config.ts
 vite.generated.ts
 src/main/frontend/
+
+# Local dev / AI tooling files
+.claude/
+.codex/
+.mcp.json
+.playwright-mcp/
+.DS_Store
