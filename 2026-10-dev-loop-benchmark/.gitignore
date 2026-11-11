@@ -1,0 +1,5 @@
+# Created when you run the benchmark yourself
+benchmark/templates/
+benchmark/runs/
+benchmark/results/
+.DS_Store
